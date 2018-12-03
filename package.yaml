@@ -1,0 +1,33 @@
+name:                advent
+version:             0.1.0.0
+github:              "b-mehta/advent"
+license:             BSD3
+author:              "Bhavik Mehta"
+maintainer:          "bhavikmehta8@gmail.com"
+copyright:           "2018 Bhavik Mehta"
+
+extra-source-files:
+- README.md
+
+dependencies:
+- base >= 4.7 && < 5
+- vector >= 0.12
+- containers >= 0.5
+- megaparsec
+- multiset >= 0.3.4.1
+
+ghc-options:
+  - -O2
+
+library:
+  source-dirs: 
+    - common
+
+executables:
+  day1:
+    main: day1.hs
+    source-dirs: sols
+    dependencies: advent
+  day2:
+    main: day2.hs
+    source-dirs: sols
