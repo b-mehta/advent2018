@@ -13,15 +13,20 @@ dependencies:
 - base >= 4.7 && < 5
 - vector >= 0.12
 - containers >= 0.5
-- megaparsec
+- megaparsec >= 7.0.3
 - multiset >= 0.3.4.1
 
 ghc-options:
   - -O2
 
+default-extensions:
+  - TupleSections
+
 library:
   source-dirs: 
     - common
+  exposed-modules:
+    - Common
 
 executables:
   day1:
@@ -31,3 +36,8 @@ executables:
   day2:
     main: day2.hs
     source-dirs: sols
+    dependencies: advent
+  day3:
+    main: day3.hs
+    source-dirs: sols
+    dependencies: advent

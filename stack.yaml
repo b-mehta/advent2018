@@ -40,6 +40,7 @@ packages:
 # (e.g., acme-missiles-0.3)
 extra-deps:
   - multiset-0.3.4.1
+  - megaparsec-7.0.3
 
 # Override default flag values for local packages and extra-deps
 # flags: {}
