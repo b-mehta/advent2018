@@ -15,6 +15,7 @@ dependencies:
 - containers >= 0.5
 - megaparsec >= 7.0.3
 - multiset >= 0.3.4.1
+- split >= 0.2.3.3
 
 ghc-options:
   - -O2
@@ -39,5 +40,9 @@ executables:
     dependencies: advent
   day3:
     main: day3.hs
+    source-dirs: sols
+    dependencies: advent
+  day4:
+    main: day4.hs
     source-dirs: sols
     dependencies: advent
