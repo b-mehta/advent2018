@@ -71,10 +71,36 @@ makePairs (x:y:z) = (x,y): makePairs z
 makePairs [] = []
 makePairs _ = error "odd pairs"
 
-range :: Enum a => a -> a -> [a]
-range x y = enumFromTo x (pred y)
+range :: Enum a => (a, a) -> [a]
+range (x,y) = enumFromTo x (pred y)
 
--- multiset functions
+range' :: Enum a => (a, a) -> [a]
+range' (x,y) = enumFromTo x y
+
+merge :: Ord a => [a] -> [a] -> [a]
+merge [] x = x
+merge x [] = x
+merge (x:xs) (y:ys)
+  | x < y = x:merge xs (y:ys)
+  | otherwise = y:merge (x:xs) ys
+
+newtype Min2' a = Min2' [a]
+
+firstTwo :: [a] -> Min2' a
+firstTwo = Min2' . take 2
+
+instance Ord a => Semigroup (Min2' a) where
+  Min2' x <> Min2' y = firstTwo (merge x y)
+
+instance Ord a => Monoid (Min2' a) where
+  mempty = Min2' []
+
+uniqueBest :: Ord a => [a] -> Maybe a
+uniqueBest t = case foldMap (Min2' . (:[])) t of
+                 Min2' [x] -> Just x
+                 Min2' [x,y] | x /= y -> Just x
+                 _ -> Nothing
+
 data Labelled a b = Labelled { value :: a
                              , name :: b
                              }
@@ -85,8 +111,18 @@ instance Eq a => Eq (Labelled a b) where
 instance Ord a => Ord (Labelled a b) where
   x `compare` y = value x `compare` value y
 
+labelWith :: Functor f => (b -> a) -> f b -> f (Labelled a b)
+labelWith f = fmap (\t -> Labelled (f t) t)
+
+-- multiset functions
 msOccFilter :: (Int -> Bool) -> MS.MultiSet a -> MS.MultiSet a
 msOccFilter p = MS.fromOccurMap . M.filter p . MS.toMap
 
+mostPopular' :: Ord a => MS.MultiSet a -> Labelled Int a
+mostPopular' = MS.foldOccur (max ... flip Labelled) (Labelled (-1) (error "empty set"))
+
 mostPopular :: Ord a => MS.MultiSet a -> a
-mostPopular = name . MS.foldOccur (max ... flip Labelled) (Labelled (-1) (error "empty set"))
+mostPopular = name . mostPopular'
+
+mostPopularValue :: Ord a => MS.MultiSet a -> Int
+mostPopularValue = value . mostPopular'

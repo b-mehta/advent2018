@@ -11,11 +11,11 @@ part1 :: [Record] -> Int
 part1 rs = mostPopular popTimes * guard
   where guard = mostPopular . MS.fromOccurList . map (second getT) $ rs
         getT ts = sum [y-x | (x,y) <- ts]
-        popTimes = MS.fromList [t | (g,ts) <- rs, g == guard, (x,y) <- ts, t <- range x y]
+        popTimes = MS.fromList [x | (g,ts) <- rs, g == guard, x <- ts >>= range]
 
 part2 :: [Record] -> Int
 part2 = uncurry (*) . mostPopular . MS.unions . map night
-  where night (r, ts) = MS.fromDistinctAscList [(r,t) | (x,y) <- ts, t <- range x y]
+  where night (r, ts) = MS.fromDistinctAscList $ (r,) <$> (ts >>= range)
 
 parser :: String -> [Record]
 parser = map makeRecord . split strat . sort . lines

@@ -50,3 +50,7 @@ executables:
     main: day5.hs
     source-dirs: sols
     dependencies: advent
+  day6:
+    main: day6.hs
+    source-dirs: sols
+    dependencies: advent
