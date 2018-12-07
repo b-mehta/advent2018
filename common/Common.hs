@@ -12,8 +12,8 @@ module Common
   , toList
   ) where
 
-import Control.Arrow ((***), (&&&), (>>>))
-import Control.Monad (join)
+import Control.Arrow hiding (first, second)
+import Control.Monad
 import Data.Bifunctor (first, second, bimap)
 import Data.Bool (bool)
 import Data.Foldable (toList)

@@ -16,6 +16,11 @@ dependencies:
 - megaparsec >= 7.0.3
 - multiset >= 0.3.4.1
 - split >= 0.2.3.3
+<<<<<<< Updated upstream
+=======
+- mtl
+- microlens-platform
+>>>>>>> Stashed changes
 
 ghc-options:
   - -O2
@@ -52,5 +57,9 @@ executables:
     dependencies: advent
   day6:
     main: day6.hs
+    source-dirs: sols
+    dependencies: advent
+  day7:
+    main: day7.hs
     source-dirs: sols
     dependencies: advent
