@@ -2,7 +2,6 @@ import Common
 import Control.Monad.State
 
 data Tree = Tree [Tree] [Int]
-  deriving Show
 
 main :: IO ()
 main = runMain 8 parser sumMetadata scoreTree
@@ -12,18 +11,16 @@ sumMetadata (Tree cs ms) = sum (map sumMetadata cs ++ ms)
 
 scoreTree :: Tree -> Int
 scoreTree (Tree [] ms) = sum ms
-scoreTree (Tree cs ms) = sum . map (childScores !!) . filter (< len) . map (subtract 1) $ ms
-  where childScores = map scoreTree cs
-        len = length childScores
+scoreTree (Tree cs ms) = sum (mapMaybe (`index` childScores) ms)
+  where childScores = scoreTree <$> cs
 
-readTree :: StateT [Int] Maybe Tree
-readTree = do
-  (children, metadata) <- (,) <$> readNum <*> readNum
-  Tree <$> replicateM children readTree <*> replicateM metadata readNum
-    where readNum = StateT uncons
-
-makeTree :: [Int] -> Tree
-makeTree = fromMaybe (error "bad tree") . evalStateT readTree
+index :: Int -> [a] -> Maybe a
+index n = listToMaybe . drop (n-1)
 
 parser :: String -> Tree
-parser = makeTree . map read . words
+parser = fromMaybe (error "bad tree") . evalStateT readTree . map read . words
+
+readTree :: StateT [Int] Maybe Tree
+readTree = do (c, m) <- (,) <$> readNum <*> readNum
+              Tree <$> replicateM c readTree <*> replicateM m readNum
+           where readNum = StateT uncons
