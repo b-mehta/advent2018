@@ -30,6 +30,7 @@ library:
     - common
   exposed-modules:
     - Common
+    - ParseHell
 
 executables:
   day1:
@@ -62,5 +63,9 @@ executables:
     dependencies: advent
   day8:
     main: day8.hs
+    source-dirs: sols
+    dependencies: advent
+  day9:
+    main: day9.hs
     source-dirs: sols
     dependencies: advent
