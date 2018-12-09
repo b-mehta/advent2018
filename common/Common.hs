@@ -6,9 +6,10 @@ module Common
   , module Data.Void
   , module Text.Megaparsec
   , module Text.Megaparsec.Char
+  , module Data.Char
   , (***), (&&&), (>>>)
   , bool
-  , mapMaybe, listToMaybe, catMaybes, maybe
+  , mapMaybe, listToMaybe, catMaybes, maybe, fromMaybe
   , toList
   ) where
 
@@ -16,12 +17,14 @@ import Control.Arrow hiding (first, second)
 import Control.Monad
 import Data.Bifunctor (first, second, bimap)
 import Data.Bool (bool)
+import Data.Char
 import Data.Foldable (toList)
 import Data.List
 import Data.Maybe
 import Data.Monoid
+-- import Data.Semigroup
 import Data.Void
-import Text.Megaparsec
+import Text.Megaparsec hiding (match)
 import Text.Megaparsec.Char
 import qualified Data.MultiSet as MS
 import qualified Data.Map as M
@@ -53,6 +56,11 @@ runMainP n p p1 p2 = do
 (...) = (.).(.)
 infixr ...
 
+bothMap :: (a -> b) -> (a,a) -> (b,b)
+bothMap = join bimap
+
+-- parser helpers
+
 number :: Parser Int
 number = read <$> many digitChar
 
@@ -62,6 +70,7 @@ lineParser line = line `endBy` eol <* eof
 middle :: Parser a -> String -> Parser c -> Parser (a,c)
 middle a b c = (,) <$> a <*> (string b *> c)
 
+-- list functions
 moreThanOne :: [a] -> Bool
 moreThanOne (_:_:_) = True
 moreThanOne _ = False
