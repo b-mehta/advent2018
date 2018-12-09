@@ -24,7 +24,7 @@ import Data.Maybe
 import Data.Monoid
 -- import Data.Semigroup
 import Data.Void
-import Text.Megaparsec hiding (match)
+import Text.Megaparsec hiding (match, State)
 import Text.Megaparsec.Char
 import qualified Data.MultiSet as MS
 import qualified Data.Map as M
@@ -60,15 +60,17 @@ bothMap :: (a -> b) -> (a,a) -> (b,b)
 bothMap = join bimap
 
 -- parser helpers
-
-number :: Parser Int
-number = read <$> many digitChar
+num :: Parser Int
+num = read <$> many digitChar
 
 lineParser :: Parser a -> Parser [a]
 lineParser line = line `endBy` eol <* eof
 
 middle :: Parser a -> String -> Parser c -> Parser (a,c)
 middle a b c = (,) <$> a <*> (string b *> c)
+
+nNum :: Parser String
+nNum = some . satisfy $ not . isDigit
 
 -- list functions
 moreThanOne :: [a] -> Bool

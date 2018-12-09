@@ -17,8 +17,7 @@ go seen (x:xs)
 go _ [] = error "no repeat"
 
 parser :: String -> [Int]
-parser = map num . lines
+parser = map number . lines
 
-num :: String -> Int
-num ('+':xs) = read xs
-num xs       = read xs
+number :: String -> Int
+number = read . filter (/='+')

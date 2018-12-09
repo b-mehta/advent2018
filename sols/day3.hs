@@ -32,7 +32,7 @@ parser :: Parser Input
 parser = lineParser line
 
 line :: Parser (Name, Coords)
-line = char '#' *> middle number " @ " coords
+line = char '#' *> middle num " @ " coords
 
 coords :: Parser Coords
-coords = middle (middle number "," number) ": " (middle number "x" number)
+coords = middle (middle num "," num) ": " (middle num "x" num)
