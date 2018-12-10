@@ -18,7 +18,6 @@ dependencies:
 - split >= 0.2.3.3
 - mtl
 - microlens-platform
-- array
 
 ghc-options:
   - -O2

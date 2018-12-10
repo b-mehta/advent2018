@@ -22,7 +22,7 @@ import Data.Foldable (toList)
 import Data.List
 import Data.Maybe
 import Data.Monoid
--- import Data.Semigroup
+import Data.Semigroup
 import Data.Void
 import Text.Megaparsec hiding (match, State)
 import Text.Megaparsec.Char
@@ -39,8 +39,8 @@ runMain :: (Show x, Show y) => Int -> (String -> a) -> (a -> x) -> (a -> y) -> I
 runMain n p p1 p2 = do
   inp <- readFile $ fileName n
   let parsed = p inp
-  putStrLn ("Part 1: " ++ show (p1 parsed))
-  putStrLn ("Part 2: " ++ show (p2 parsed))
+  putStrLn ("Part 1:\n" ++ show (p1 parsed))
+  putStrLn ("Part 2:\n" ++ show (p2 parsed))
 
 runMainP :: (Show x, Show y) => Int -> Parser a -> (a -> x) -> (a -> y) -> IO ()
 runMainP n p p1 p2 = do
@@ -48,8 +48,8 @@ runMainP n p p1 p2 = do
   case parse p (fileName n) inp of
     Left e -> putStr (errorBundlePretty e)
     Right xs -> do
-      putStrLn ("Part 1: " ++ show (p1 xs))
-      putStrLn ("Part 2: " ++ show (p2 xs))
+      putStrLn ("Part 1:\n" ++ show (p1 xs))
+      putStrLn ("Part 2:\n" ++ show (p2 xs))
 
 -- combinators
 (...) :: (c -> d) -> (a -> b -> c) -> a -> b -> d
@@ -63,6 +63,9 @@ bothMap = join bimap
 num :: Parser Int
 num = read <$> many digitChar
 
+anyNum :: Parser Int
+anyNum = (negate <$ char '-' <|> pure id <|> id <$ char '+') <*> num
+
 lineParser :: Parser a -> Parser [a]
 lineParser line = line `endBy` eol <* eof
 
@@ -70,7 +73,7 @@ middle :: Parser a -> String -> Parser c -> Parser (a,c)
 middle a b c = (,) <$> a <*> (string b *> c)
 
 nNum :: Parser String
-nNum = some . satisfy $ (\x -> not (isDigit x) && not (x == '-'))
+nNum = some . satisfy $ (\x -> isLetter x || x `elem` "!@$%^&*()=_<>[];.,# ")
 
 -- list functions
 moreThanOne :: [a] -> Bool
@@ -87,6 +90,9 @@ range (x,y) = enumFromTo x (pred y)
 
 range' :: Enum a => (a, a) -> [a]
 range' (x,y) = enumFromTo x y
+
+minMax2d :: (Ord a, Bounded a, Foldable f) => f (a,a) -> ((a,a),(a,a))
+minMax2d = bothMap (getMin *** getMax) . foldMap (bothMap (Min &&& Max))
 
 merge :: Ord a => [a] -> [a] -> [a]
 merge [] x = x
@@ -115,6 +121,7 @@ uniqueBest t = case foldMap (Min2' . (:[])) t of
 data Labelled a b = Labelled { value :: a
                              , name :: b
                              }
+                             deriving Show
 
 instance Eq a => Eq (Labelled a b) where
   x == y = value x == value y
@@ -124,6 +131,10 @@ instance Ord a => Ord (Labelled a b) where
 
 labelWith :: Functor f => (b -> a) -> f b -> f (Labelled a b)
 labelWith f = fmap (\t -> Labelled (f t) t)
+
+newtype S = S String
+instance Show S where
+  show (S s) = s
 
 -- multiset functions
 msOccFilter :: (Int -> Bool) -> MS.MultiSet a -> MS.MultiSet a
