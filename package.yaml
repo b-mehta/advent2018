@@ -18,6 +18,7 @@ dependencies:
 - split >= 0.2.3.3
 - mtl
 - microlens-platform
+- array
 
 ghc-options:
   - -O2
@@ -66,5 +67,9 @@ executables:
     dependencies: advent
   day9:
     main: day9.hs
+    source-dirs: sols
+    dependencies: advent
+  day10:
+    main: day10.hs
     source-dirs: sols
     dependencies: advent

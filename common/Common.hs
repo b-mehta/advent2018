@@ -70,7 +70,7 @@ middle :: Parser a -> String -> Parser c -> Parser (a,c)
 middle a b c = (,) <$> a <*> (string b *> c)
 
 nNum :: Parser String
-nNum = some . satisfy $ not . isDigit
+nNum = some . satisfy $ (\x -> not (isDigit x) && not (x == '-'))
 
 -- list functions
 moreThanOne :: [a] -> Bool
