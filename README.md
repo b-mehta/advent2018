@@ -1,1 +1,1 @@
-My solutions to advent of code 2018
+Solutions to Advent of Code 2018 in Haskell, first time participating!
