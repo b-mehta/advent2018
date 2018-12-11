@@ -1,4 +1,5 @@
 import Common
+import Parsers
 import Control.Monad.State
 import qualified Data.Sequence as Seq
 import qualified Data.IntMap.Strict as M
@@ -6,7 +7,7 @@ import qualified Data.IntMap.Strict as M
 data GameState = GS Int (Seq.Seq Int) Int
 
 main :: IO ()
-main = runMainP 9 parser part1 part2
+main = runMainP 9 magicNums part1 part2
 
 part1 :: (Int,Int) -> Int
 part1 = maximum . uncurry result
@@ -30,6 +31,3 @@ result n = M.fromListWith (+) . zip (cycle [1..n]) . scores
 
 part2 :: (Int,Int) -> Int
 part2 = maximum . uncurry result . second (*100)
-
-parser :: Parser (Int,Int)
-parser = (,) <$> (num <* nNum) <*> (num <* nNum)

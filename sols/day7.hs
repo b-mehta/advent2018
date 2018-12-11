@@ -7,7 +7,7 @@ import Lens.Micro.Platform
 type Graph a = Map.Map a [a]
 
 main :: IO ()
-main = runMainP 7 parser part1 part2'
+main = runMainP 7 parser (S . part1) part2'
 
 parser :: Parser [(Char, Char)]
 parser = lineParser line
