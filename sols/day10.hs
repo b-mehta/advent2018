@@ -1,4 +1,5 @@
 import Common
+import Parsers
 import qualified Data.Set as S
 
 main :: IO ()
@@ -31,8 +32,4 @@ add :: Num a => (a,a) -> (a,a) -> (a,a)
 add (a,b) (c,d) = (a+c, b+d)
 
 parser :: Parser [((Int,Int),(Int,Int))]
-parser = lineParser line
-
-line :: Parser ((Int,Int),(Int,Int))
-line = (,) <$> pair <*> pair <* nNum
-  where pair = (,) <$> (nNum *> anyNum) <*> (nNum *> anyNum)
+parser = lineParser $ (,) <$> magicNums <*> magicNums

@@ -30,6 +30,7 @@ library:
     - common
   exposed-modules:
     - Common
+    - Parsers
 
 executables:
   day1:

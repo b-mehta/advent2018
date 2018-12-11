@@ -73,7 +73,7 @@ middle :: Parser a -> String -> Parser c -> Parser (a,c)
 middle a b c = (,) <$> a <*> (string b *> c)
 
 nNum :: Parser String
-nNum = some . satisfy $ (\x -> isLetter x || x `elem` "!@$%^&*()=_<>[];.,# ")
+nNum = many . satisfy $ (\x -> isLetter x || x `elem` "!@$%^&*()=_<>[];.,# ")
 
 -- list functions
 moreThanOne :: [a] -> Bool
