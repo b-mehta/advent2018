@@ -33,40 +33,40 @@ library:
     - Parsers
 
 executables:
-  day1:
-    main: day1.hs
+  day01:
+    main: day01.hs
     source-dirs: sols
     dependencies: advent
-  day2:
-    main: day2.hs
+  day02:
+    main: day02.hs
     source-dirs: sols
     dependencies: advent
-  day3:
-    main: day3.hs
+  day03:
+    main: day03.hs
     source-dirs: sols
     dependencies: advent
-  day4:
-    main: day4.hs
+  day04:
+    main: day04.hs
     source-dirs: sols
     dependencies: advent
-  day5:
-    main: day5.hs
+  day05:
+    main: day05.hs
     source-dirs: sols
     dependencies: advent
-  day6:
-    main: day6.hs
+  day06:
+    main: day06.hs
     source-dirs: sols
     dependencies: advent
-  day7:
-    main: day7.hs
+  day07:
+    main: day07.hs
     source-dirs: sols
     dependencies: advent
-  day8:
-    main: day8.hs
+  day08:
+    main: day08.hs
     source-dirs: sols
     dependencies: advent
-  day9:
-    main: day9.hs
+  day09:
+    main: day09.hs
     source-dirs: sols
     dependencies: advent
   day10:
