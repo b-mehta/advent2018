@@ -18,6 +18,7 @@ dependencies:
 - split >= 0.2.3.3
 - mtl
 - microlens-platform
+- comonad
 
 ghc-options:
   - -O2
@@ -75,5 +76,9 @@ executables:
     dependencies: advent
   day11:
     main: day11.hs
+    source-dirs: sols
+    dependencies: advent
+  day12:
+    main: day12.hs
     source-dirs: sols
     dependencies: advent
