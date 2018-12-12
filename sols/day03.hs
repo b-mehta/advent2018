@@ -1,4 +1,5 @@
 import Common
+import Parsers
 import qualified Data.MultiSet as MS
 
 type Input = [(Name, Coords)]
@@ -35,4 +36,4 @@ line :: Parser (Name, Coords)
 line = char '#' *> middle num " @ " coords
 
 coords :: Parser Coords
-coords = middle (middle num "," num) ": " (middle num "x" num)
+coords = middle magicNums ": " magicNums

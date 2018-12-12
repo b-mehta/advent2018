@@ -1,6 +1,7 @@
 {-# LANGUAGE PartialTypeSignatures, TupleSections #-}
 
 import Common
+import Parsers
 
 import Data.Semigroup (Min(..), Max(..))
 import qualified Data.MultiSet as MS
@@ -37,4 +38,4 @@ total :: [Point] -> Point -> Int
 total points me = sum [manhattan point me | point <- points]
 
 parser :: Parser [Point]
-parser = lineParser (middle num ", " num)
+parser = lineParser magicNums
