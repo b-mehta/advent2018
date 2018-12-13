@@ -82,3 +82,7 @@ executables:
     main: day12.hs
     source-dirs: sols
     dependencies: advent
+  day13:
+    main: day13.hs
+    source-dirs: sols
+    dependencies: advent
